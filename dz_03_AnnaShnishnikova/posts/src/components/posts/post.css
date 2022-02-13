@@ -1,0 +1,17 @@
+  .post-item{
+    border: 1px solid black;
+    margin: 10px 0px;
+    padding: 5px 10px;
+    background-color: aquamarine; 
+    display: flex;
+    flex-direction: row;
+    
+  }
+
+  .post-title{
+      font-weight: 500;
+      width: 40%;
+  }
+  .update-title{
+      width: 10%;
+  }
