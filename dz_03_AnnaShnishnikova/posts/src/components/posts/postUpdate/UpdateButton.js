@@ -1,25 +1,20 @@
 import React from "react";
-import TitleUpdateInput from "./TitleUpdateInput";
 
-export default class UpdateButton extends React.Component{
-    constructor(props){
-        super(props)
-        this.onUpdateClick = this.onUpdateClick.bind(this)
+export default class UpdateButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onUpdateClick = this.onUpdateClick.bind(this);
     }
 
-    onUpdateClick(){
+    onUpdateClick() {
         this.props.onUpdateClick(this.props.id);
-       
     }
 
-    // shouldComponentUpdate()
-
-    render(){
+    render() {
         return (
-            <button
-                className="update-title"                             
-                onClick={this.onUpdateClick}
-            >Update Title</button>
+            <button className="update-title" onClick={this.onUpdateClick}>
+                Update Title
+            </button>
         );
     }
 }

@@ -1,19 +1,32 @@
 import React from "react";
 
-export default class TitleUpdateInput extends React.Component{
-    constructor (props){
-        super(props)
+export default class TitleUpdateInput extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.onSaveClick = this.onSaveClick.bind(this);
+        this.onHandleChange = this.onHandleChange.bind(this);
     }
 
-    onSafeClick(){}
-    onCancelClick(){}
+    onSaveClick() {
+        const inputVal = document.querySelector("input").value;
+        this.props.onSaveClick(this.props.id, inputVal);
+    }
+    onHandleChange(event) {
+        const value = event.target.value;
+        this.props.onSaveClick(value);
+    }
 
-    render(){
+    render() {
         return (
             <>
                 <input type="text" placeholder="Enter new title"></input>
-                <button className="safe">Safe</button>
-                <button className="cancel">Cansel</button>
+                <button className="save" onClick={this.onSaveClick}>
+                    Save
+                </button>
+                <button className="cancel" onClick={this.props.onCancelClick}>
+                    Cansel
+                </button>
             </>
         );
     }
