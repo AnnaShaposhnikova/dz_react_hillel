@@ -13,7 +13,7 @@ export default class ContactList extends React.Component {
             contacts: [],
         };
         this.onDeleteClick = this.onDeleteClick.bind(this);
-        this.onAddContactClick=this.onAddContactClick.bind(this);
+        this.onCreateContact = this.onCreateContact.bind(this);
         this.onUpdateClick = this.onUpdateClick.bind(this);
     }
     static API = "https://620e3315585fbc3359d9e5af.mockapi.io/contacts";
@@ -55,22 +55,24 @@ export default class ContactList extends React.Component {
             contacts: newArrayofContacts,
         });
     }
-    onAddContactClick(){
-        this.props.onButtonFormClick("add contact");
+    onCreateContact() {
+        this.props.onCreateContact("add contact");
     }
-    
-    updateContacts(id, contact){
+
+    updateContacts(id, contact) {
         return fetch(`${ContactList.API}/${id}`, {
             method: "PUT",
             body: JSON.stringify(contact),
-        }).then((response)=>response.json());
+        }).then((response) => response.json());
     }
 
-    onUpdateClick(id){
-       this.props.onUpdateClick("add contact");
-        
+    onUpdateClick(id) {
+        const contact = this.state.contacts.find(
+            (contact) => contact.id === id
+        );
+        this.props.onUpdateContact(contact);
+        this.props.onUpdateClick("add contact");
     }
-  
 
     renderLoading() {
         return <h1>Loading...</h1>;
@@ -89,12 +91,11 @@ export default class ContactList extends React.Component {
                         <ContactUpdate
                             id={contact.id}
                             onUpdateClick={this.onUpdateClick}
-                        />                        
+                        />
                         <ContactDelete
                             id={contact.id}
                             onDeleteClick={this.onDeleteClick}
                         />
-                        
                     </div>
                 </div>
             );
@@ -114,7 +115,13 @@ export default class ContactList extends React.Component {
                     </div>
                     {this.renderPostItems()}
                     <div className="add-button">
-                    <button className="add-contact" onClick={this.onAddContactClick}>Add new contact</button></div>
+                        <button
+                            className="add-contact"
+                            onClick={this.onCreateContact}
+                        >
+                            Add new contact
+                        </button>
+                    </div>
                 </div>
             );
         }

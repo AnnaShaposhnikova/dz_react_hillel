@@ -1,21 +1,18 @@
 import React from "react";
-import './contact.css';
+import "./contact.css";
 
-export default class ContactItem extends React.Component{
-    constructor(props){
-        super(props)
+export default class ContactItem extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-    render(){
+    render() {
         return (
-            <>  
-                    <div className="firstName">{this.props.name}</div>
-                    <div className="lastName">{this.props.lastName}</div>
-                    <div className="tel">{this.props.phone}</div>
-              
+            <>
+                <div className="firstName">{this.props.name}</div>
+                <div className="lastName">{this.props.lastName}</div>
+                <div className="tel">{this.props.phone}</div>
             </>
         );
     }
-
-
 }
