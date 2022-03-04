@@ -9,6 +9,7 @@ class App extends React.Component {
         this.state = {
             nameOfPage: "contacts",
             contact: null,
+            
         };
         this.changePage = this.changePage.bind(this);
         this.saveContact = this.saveContact.bind(this);
@@ -20,7 +21,7 @@ class App extends React.Component {
     }
 
     async saveContact(contact) {
-        // console.log(contact);
+        
         await fetch(`${ContactList.API}`, {
             method: "POST",
             body: JSON.stringify(contact),
@@ -57,6 +58,7 @@ class App extends React.Component {
                         onCancelClick={this.changePage}
                         onSaveClick={this.saveContact}
                         contact={this.state.contact}
+                        
                     />
                 </div>
             );

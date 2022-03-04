@@ -8,19 +8,28 @@ export default class ContactForm extends React.Component {
             name: this.props.contact ? this.props.contact.name : "",
             lastName: this.props.contact ? this.props.contact.lastName : "",
             phone: this.props.contact ? this.props.contact.phone : "",
-
-            // isValidFirstName :true,
+            errors: {
+                name: "",
+                lastName: "",
+                phone: "",
+            },
         };
 
         this.onSaveClick = this.onSaveClick.bind(this);
         this.onCancelClick = this.onCancelClick.bind(this);
-
         this.handleChange = this.handleChange.bind(this);
     }
 
     onSaveClick(event) {
-        this.props.onSaveClick(this.state);
         event.preventDefault();
+
+        const errors = validateForm(this.state);
+        this.setState({ errors: errors });
+        if (Object.keys(errors).length) {
+            return;
+        }
+
+        this.props.onSaveClick(this.state);
     }
 
     handleChange(event) {
@@ -35,10 +44,25 @@ export default class ContactForm extends React.Component {
     }
 
     render() {
-        // let error;
-        // if(!this.state.isValidFirstName){
-        //     error = <div className="error">Enter first name</div>
-        // }
+        let errorFirstName;
+        let errorLastName;
+        let errorPhone;
+
+        if (this.state.errors.name) {
+            errorFirstName = (
+                <div className="error">{this.state.errors.name}</div>
+            );
+        }
+
+        if (this.state.errors.lastName) {
+            errorLastName = (
+                <div className="error">{this.state.errors.lastName}</div>
+            );
+        }
+
+        if (this.state.errors.phone) {
+            errorPhone = <div className="error">{this.state.errors.phone}</div>;
+        }
 
         return (
             <div id="create-form">
@@ -51,10 +75,9 @@ export default class ContactForm extends React.Component {
                         value={this.state.name}
                         onChange={this.handleChange}
                     ></input>
-                    {/* {error} */}
+                    {errorFirstName}
 
                     <label htmlFor="lastName">Last Name</label>
-
                     <input
                         id="lastName"
                         type="text"
@@ -62,6 +85,8 @@ export default class ContactForm extends React.Component {
                         value={this.state.lastName}
                         onChange={this.handleChange}
                     ></input>
+                    {errorLastName}
+
                     <label htmlFor="tel">Phone number</label>
                     <input
                         id="tel"
@@ -70,6 +95,8 @@ export default class ContactForm extends React.Component {
                         value={this.state.phone}
                         onChange={this.handleChange}
                     ></input>
+                    {errorPhone}
+
                     <button id="save-contact">Save</button>
                     <button id="cancel" onClick={this.onCancelClick}>
                         Cancel
@@ -78,4 +105,33 @@ export default class ContactForm extends React.Component {
             </div>
         );
     }
+}
+
+function validateForm(formDataObj) {
+    const errors = {};
+
+    if (!formDataObj.name) {
+        errors.name = "First name is empty";
+    } else if (formDataObj.name.length < 3 || formDataObj.name.length > 25) {
+        errors.name = "Length of first name must be from 3 to 25";
+    }
+
+    if (!formDataObj.lastName) {
+        errors.lastName = "Last name is empty";
+    } else if (
+        formDataObj.lastName.length < 3 ||
+        formDataObj.lastName.length > 25
+    ) {
+        errors.lastName = "Length of last name must be from 3 to 25";
+    }
+
+    if (!formDataObj.phone) {
+        errors.phone = "Phone is empty";
+    } else if (!formDataObj.phone.match(/\+?([0-9-() ]+)/)) {
+        errors.phone = "Wrong phone type";
+    } else if (formDataObj.phone.length < 10 || formDataObj.phone.length > 25) {
+        errors.phone = "Length of phone must be from 10 to 25";
+    }
+
+    return errors;
 }
